@@ -26,6 +26,7 @@ exports.editStore = async (req, res) => {
 };
 
 exports.updateStore = async (req, res) => {
+    req.body.location.type = 'Point';
     const query = { _id: req.params.id };
     const options = { new: true, runValidators: true };
     const store = await Store.findOneAndUpdate(query, req.body, options).exec();
