@@ -66,6 +66,9 @@ exports.getStoreBySlug = async (req, res, next) => {
 
 exports.getStoresByTag = async (req, res) => {
     const tag = req.params.tag;
-    const tags = await Store.getTagsList();
-    res.render('tag', { title: 'Tags', tags, tag })
+    const [ tags, stores ] = await Promise.all([
+        Store.getTagsList(),
+        Store.find({ tags: tag || { $exists: true } })
+    ]);
+    res.render('tag', { title: 'Tags', tag, tags, stores });
 }
